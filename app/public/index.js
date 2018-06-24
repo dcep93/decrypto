@@ -22,7 +22,7 @@ function prepare() {
 	shuffleArray(state.bank);
 	state.numWords = Number.parseInt($('#num_words').val());
 	state.numClues = Number.parseInt($('#num_clues').val());
-	state.round = {index: 1};
+	state.round = { index: 1 };
 	state.currentPlayer = myIndex;
 	state.players.forEach(function(player) {
 		player.state = newState();
@@ -47,6 +47,7 @@ function update() {
 			.addClass('bubble')
 			.addClass('inline_flex')
 			.append($('<div>').text(player.name))
+			.addClass('player')
 			.appendTo('#players');
 		for (var j = 0; j < player.state.history.length; j++) {
 			var history = player.state.history[j];
@@ -64,7 +65,8 @@ function update() {
 				.addClass('inline');
 			for (var index in history.answers) {
 				var name =
-					(index === '' ? 'correct' : state.players[index].name)+':';
+					(index === '' ? 'correct' : state.players[index].name) +
+					':';
 				var text = name + ' ' + history.answers[index].join(', ');
 				$('<div>')
 					.text(text)
@@ -83,9 +85,9 @@ function update() {
 	}
 
 	setClues();
-	if (myIndex === state.admin && everyoneHasAnswered()) {
+	if (isAdmin() && everyoneHasAnswered()) {
 		current().state.history.push(state.round);
-		state.round = {index: state.round.index+1};
+		state.round = { index: state.round.index + 1 };
 		var name = current().name;
 		advanceTurn();
 		sendState('finished turn', name);
@@ -144,21 +146,38 @@ function setClues() {
 		round = state.round.index;
 		$('.clue_input').val('');
 	}
-	var canClue = state.round.clues === undefined && me().state.answers !== undefined && isMyTurn(false);
+	var canClue =
+		state.round.clues === undefined &&
+		me().state.answers !== undefined &&
+		myIndex === state.currentPlayer;
 	$('.clue').prop('disabled', !canClue);
-	$('.guess').prop('disabled', state.round.clues === undefined || canClue);
+	$('.guess').prop(
+		'disabled',
+		state.round.clues === undefined ||
+			state.round.answers[myIndex] !== undefined ||
+			canClue
+	);
 }
+
+isMyTurn = function() {
+	if (state.round.clues === undefined) {
+		return myIndex === state.currentPlayer;
+	} else {
+		return state.round.answers[myIndex] === undefined;
+	}
+};
 
 function submit() {
 	if (state.round.clues !== undefined) {
 		guess();
-	} else if (isMyTurn(false)) {
+	} else if (isMyTurn()) {
 		clue();
 	}
 	return false;
 }
 
 function guess() {
+	if (state.round.answers[myIndex] !== undefined) return;
 	state.round.answers[myIndex] = $('.guess')
 		.map(function() {
 			return $(this).val();

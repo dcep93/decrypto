@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+
+<%- include(views+'/head.html') %>
+
+	<script type="text/javascript" src="index.js"></script>
+</head>
+<body>
+	<div id="page">
+		<div id="welcome" class="bubble" hidden>
+			<div>
+				Welcome to <%= title %>!
+			</div>
+			<div>
+				<p>Enter your name to get started.</p>
+			</div>
+			<form id="register_form">
+				Name: <input id="name_input" type="text">
+				Room Name: <input id="room_input" type="text">
+				<input disabled type="submit">
+			</form>
+		</div>
+		<div id="room" class="flex bubble" hidden>
+			<div id="turn_background"></div>
+			<div id="area">
+				<div id="lobby" class="bubble" hidden>
+					<button id="lobby_host" hidden>Start Game</button>
+					<p id="lobby_wait" hidden>Waiting for host to start game...</p>
+					<div>
+						<p>Players:</p>
+						<div id="lobby_players" class="bubble inline"></div>
+					</div>
+				</div>
+				<div id="game" hidden>
+					<div id="game_container" class="flex">
+						<div id="state">
+							<div id="controls" class="flex">
+								<div class="bubble inline">
+									<div class="space">
+										<button id="door"></button>
+										<button id="leave">Leave</button>
+									</div>
+									<div class="space">
+										<span>Num Words: </span>
+										<input id="num_words" class="control_number" type="number" autocomplete="off" value="4">
+									</div>
+									<div class="space">
+										<span>Num Clues: </span>
+										<input id="num_clues" class="control_number" type="number" autocomplete="off" value="3">
+									</div>
+								</div>
+								<div class="bubble inline">
+									<p>Current Player: <span id="current_player"></span></p>
+									<button id="reset">Start Over</button>
+									<button id="spy">Spy</button>
+								</div>
+								<div class="bubble inline">
+									<p>Clues:</p>
+									<form id="clues"></form>
+								</div>
+							</div>
+							<div class="flex">
+								<div id="words" class="bubble inline_flex"></div>
+								<div class="bubble inline">Notes: <br><textarea></textarea></div>
+							</div>
+							<br>
+							<div id="players" class="bubble"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="log_container" class="bubble">
+				<p>Log:</p>
+				<div id="log"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
