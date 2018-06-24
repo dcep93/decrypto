@@ -18,6 +18,7 @@ $(document).ready(function() {
 });
 
 function prepare() {
+	resetClues();
 	state.bank = constants.words.slice();
 	shuffleArray(state.bank);
 	state.numWords = Number.parseInt($('#num_words').val());
@@ -40,15 +41,15 @@ function update() {
 			.addClass('space')
 			.appendTo('#words');
 	}
-	$('#players').empty();
+	$('#players_state').empty();
 	for (var i = 0; i < state.players.length; i++) {
 		var player = state.players[i];
 		var playerDiv = $('<div>')
 			.addClass('bubble')
 			.addClass('inline_flex')
 			.append($('<div>').text(player.name))
-			.addClass('player')
-			.appendTo('#players');
+			.addClass('player_div')
+			.appendTo('#players_state');
 		for (var j = 0; j < player.state.history.length; j++) {
 			var history = player.state.history[j];
 			var clues = $('<div>')
@@ -160,6 +161,9 @@ function setClues() {
 }
 
 isMyTurn = function() {
+	if (state.currentPlayer === undefined) {
+		return isAdmin();
+	}
 	if (state.round.clues === undefined) {
 		return myIndex === state.currentPlayer;
 	} else {
