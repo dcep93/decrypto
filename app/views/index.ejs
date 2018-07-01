@@ -12,14 +12,7 @@
 <%- include(views+'/pre.html') %>
 
 <div id="global_controls" class="bubble inline">
-	<div>
-		<p>Players:</p>
-		<div id="players" class="bubble inline"></div>
-	</div>
-	<div class="space">
-		<button id="door"></button>
-		<button id="leave">Leave</button>
-	</div>
+	<%- include(views+'/global_controls.html') %>
 	<div class="space">
 		<span>Num Words: </span>
 		<input id="num_words" class="control_number" type="number" autocomplete="off" value="4">

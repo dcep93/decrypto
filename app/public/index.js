@@ -10,8 +10,6 @@ var drawnClues; // ?int
 getJSONs([{ path: '/socket_games/words/common.json', name: 'words' }]);
 
 $(document).ready(function() {
-	$('#door').click(door);
-	$('#leave').click(leave);
 	$('#reset').click(prepare);
 	$('#spy').click(spy);
 	$('#clues').submit(submit);
